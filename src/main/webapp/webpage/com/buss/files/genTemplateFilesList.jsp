@@ -113,8 +113,8 @@ String ispermit=request.getParameter("ispermit");
 						  		<%--type="text" class="inputxt"  style="width:120px;"--%>
 					               <%----%>
 					                <%-->--%>
-								<textarea rows="5" cols="20" name="genTemplateFilesList[0].fileContent" maxlength="4000" class="inputxt"  style="width:350px;"></textarea>
-					  <label class="Validform_label" style="display: none;">内容</label>
+								<%--<textarea rows="5" cols="20" name="genTemplateFilesList[0].fileContent" maxlength="4000" class="inputxt"  style="width:350px;"></textarea>--%>
+					  <%--<label class="Validform_label" style="display: none;">内容</label>--%>
 					</td>
    			</tr>
 	</c:if>

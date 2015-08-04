@@ -5,7 +5,10 @@ import com.buss.files.entity.GenTemplateFilesEntity;
 import com.buss.template.entity.GenTemplateEntity;
 import com.buss.template.page.GenTemplatePage;
 import com.buss.template.service.GenTemplateServiceI;
+import com.buss.utils.CompilerHelper;
+import com.buss.utils.ConstHelper;
 import com.buss.utils.StringSort;
+import com.buss.utils.TypeInfo;
 import com.google.gson.Gson;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
@@ -49,6 +52,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.*;
@@ -137,13 +141,13 @@ public class GenManageController extends BaseController {
 
 
     @RequestMapping(params = "goGenCodeTemplate")
-    public ModelAndView goGenCodeTemplate(String packages,String db,String tid, String fid, HttpServletRequest req) {
+    public ModelAndView goGenCodeTemplate(String packages, String db, String tid, String fid, HttpServletRequest req) {
         String msg = "";
 
         GenTemplateFilesEntity entity = (GenTemplateFilesEntity) systemService.findHql("from GenTemplateFilesEntity where id=? ", fid).get(0);
         String templateStr = entity.getFileContent();
 
-String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
+        String templateName = entity.getCreateBy() + "_" + entity.getFileName();
         try {
             //String[] arr = fid.split("$$$");
             String tb = tid;
@@ -151,12 +155,12 @@ String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
             Map<String, Object> dbConfig = getDbSource(db).get(0);
             String connStr = dbConfig.get("valueinfo").toString();
 
-            List<ColumnInfo> list= getColumnInfos(tb, connStr);
+            List<ColumnInfo> list = getColumnInfos(tb, connStr);
 
-            Map data=new HashMap();
-            data.put("package",packages);
-            data.put("columns",list);
-            msg= getTemplateString(templateName,templateStr,data);
+            Map data = new HashMap();
+            data.put("package", packages);
+            data.put("columns", list);
+            msg = getTemplateString(templateName, templateStr, data);
 
         } catch (Throwable ex) {
             StringWriter sw = new StringWriter();
@@ -177,21 +181,22 @@ String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
         req.setAttribute("msg", msg);
         return new ModelAndView("com/buss/template/genCodeTemplate");
     }
+
     @RequestMapping(params = "goGenCodeTemplateByModel")
-    public ModelAndView goGenCodeTemplateByModel(String packages,String modelContent, String fid, HttpServletRequest req) {
+    public ModelAndView goGenCodeTemplateByModel(String packages, String modelContent, String fid, HttpServletRequest req) {
         String msg = "";
 
         GenTemplateFilesEntity entity = (GenTemplateFilesEntity) systemService.findHql("from GenTemplateFilesEntity where id=? ", fid).get(0);
         String templateStr = entity.getFileContent();
 
-        String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
+        String templateName = entity.getCreateBy() + "_" + entity.getFileName();
         try {
+           TypeInfo info = getFieldInfos(modelContent);
 
-
-            Map data=new HashMap();
-            data.put("package",packages);
-            //data.put("columns",list);
-            msg= getTemplateString(templateName,templateStr,data);
+            Map data = new HashMap();
+            data.put("package", packages);
+            data.put("info", info);
+            msg = getTemplateString(templateName, templateStr, data);
 
         } catch (Throwable ex) {
             StringWriter sw = new StringWriter();
@@ -213,34 +218,52 @@ String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
         return new ModelAndView("com/buss/template/genCodeTemplate");
     }
 
+    private TypeInfo getFieldInfos(String code) throws Throwable {
+        List<TypeInfo.Field> list = new ArrayList<TypeInfo.Field>();
+        Class cls = CompilerHelper.getCompilerClass(code);
+        Field[] fds = cls.getDeclaredFields();
+        for (Field item : fds) {
+            String typeName = item.getType().getName();
+            String name = ConstHelper.getStandardPropertyName(item.getName());
+            TypeInfo.Field fd = new TypeInfo.Field();
+            fd.setName(name);
+            fd.setTypeName(typeName);
+            list.add(fd);
+        }
+        TypeInfo tInfo=new TypeInfo();
+        tInfo.setClassName(cls.getSimpleName());
+        tInfo.setListField(list);
+        return tInfo;
+    }
+
     private List<ColumnInfo> getColumnInfos(String tb, String connStr) {
-        Gson gs=new Gson();
+        Gson gs = new Gson();
         @SuppressWarnings("unchecked")
-        HashMap< String,String > hm= gs.fromJson(connStr, HashMap.class);
-        String dbUrl=hm.get("url");
-        String dbUser=hm.get("user");
-        String dbPass=hm.get("pass");
-        String dbDriver=hm.get("driver");
-        String dbSchema=hm.get("schema");
-        JDBCConnectionConfiguration cfg= new JDBCConnectionConfiguration();
+        HashMap<String, String> hm = gs.fromJson(connStr, HashMap.class);
+        String dbUrl = hm.get("url");
+        String dbUser = hm.get("user");
+        String dbPass = hm.get("pass");
+        String dbDriver = hm.get("driver");
+        String dbSchema = hm.get("schema");
+        JDBCConnectionConfiguration cfg = new JDBCConnectionConfiguration();
         cfg.setUserId(dbUser);
         cfg.setPassword(dbPass);
         cfg.setDriverClass(dbDriver);
         cfg.setConnectionURL(dbUrl);
 
-        HashSet<String> tbs=new HashSet<String>();
+        HashSet<String> tbs = new HashSet<String>();
         tbs.add(tb);
 
-        List<ColumnInfo> list= MybatisGeneratorHelper.GetDbData(cfg, tbs,dbSchema);
+        List<ColumnInfo> list = MybatisGeneratorHelper.GetDbData(cfg, tbs, dbSchema);
         return list;
     }
 
-    private String getTemplateString(String  templateName,String templateStr, Map data) throws IOException, TemplateException {
-        Configuration cfg=new Configuration();
-        StringTemplateLoader strLoader=new StringTemplateLoader();
-        strLoader.putTemplate(templateName,templateStr);
+    private String getTemplateString(String templateName, String templateStr, Map data) throws IOException, TemplateException {
+        Configuration cfg = new Configuration();
+        StringTemplateLoader strLoader = new StringTemplateLoader();
+        strLoader.putTemplate(templateName, templateStr);
         cfg.setTemplateLoader(strLoader);
-        Template template=cfg.getTemplate(templateName,"utf-8");
+        Template template = cfg.getTemplate(templateName, "utf-8");
 
         //Template template = Template.getPlainTextTemplate("tm", templateStr, null);
         StringWriter sw = new StringWriter();
@@ -262,26 +285,27 @@ String templateName=entity.getCreateBy()+"_"+ entity.getFileName();
         sql1.append(" and au.table_name in (" + str + ") ");
 
 
-        SimpleJdbcTemplate db=getJdbcTemplate(dbConfig);
-        List<Map<String, Object>> list= db.findForListMap(sql1.toString(), null);
-       // List<Map<String, Object>> list = systemService.findForJdbc(sql1.toString());
+        SimpleJdbcTemplate db = getJdbcTemplate(dbConfig);
+        List<Map<String, Object>> list = db.findForListMap(sql1.toString(), null);
+        // List<Map<String, Object>> list = systemService.findForJdbc(sql1.toString());
 
         return list;
     }
-    private SimpleJdbcTemplate getJdbcTemplate(String dbConfig){
-        Gson gs=new Gson();
+
+    private SimpleJdbcTemplate getJdbcTemplate(String dbConfig) {
+        Gson gs = new Gson();
         @SuppressWarnings("unchecked")
-        HashMap< String,String > hm= gs.fromJson(dbConfig, HashMap.class);
-        String dbUrl=hm.get("url");
-        String dbUser=hm.get("user");
-        String dbPass=hm.get("pass");
-        String dbDriver=hm.get("driver");
+        HashMap<String, String> hm = gs.fromJson(dbConfig, HashMap.class);
+        String dbUrl = hm.get("url");
+        String dbUser = hm.get("user");
+        String dbPass = hm.get("pass");
+        String dbDriver = hm.get("driver");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(dbDriver);
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(dbUser);
         dataSource.setPassword(dbPass);
-        SimpleJdbcTemplate db= new SimpleJdbcTemplate(dataSource);
+        SimpleJdbcTemplate db = new SimpleJdbcTemplate(dataSource);
         return db;
     }
 

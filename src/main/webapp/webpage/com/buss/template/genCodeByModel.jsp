@@ -14,6 +14,20 @@
 
 
 <script type="text/javascript">
+    function getform(data,url){
+        var form = document.createElement("form");
+        $.each(data, function (i, item) {
+            var input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", item.name);
+            input.setAttribute("value", item.value);
+            form.appendChild(input);
+        });
+        form.action = url;
+        form.target="_self";
+        form.method = "post";
+        return form;
+    }
     function addTabs(arr, modelContent, txt_package) {
         var nextall = $('.tabs-selected').nextAll();
         nextall.each(function (i, n) {
@@ -31,7 +45,7 @@
             var title = _ar[0];
             var url = "genManageController.do?goGenCodeTemplateByModel";
 
-            var content = '<iframe name="'+fid+'" id="' + fid + '" scrolling="no" frameborder="0"  src="' + "" + '" width="100%" height="90%"></iframe>';
+            var content = '<iframe name="'+fid+'" id="' + fid + '" scrolling="no" frameborder="0"  src="' + "about:blank" + '" width="100%" height="90%"></iframe>';
             //addtt(title,url,fid,'icon-search','false');
             $('#tt').tabs('add', {
                 title: _ar[0],
@@ -45,7 +59,11 @@
             ik.common.setSerializeArray(data,"fid",fid);
             ik.common.setSerializeArray(data,"modelContent",modelContent);
             ik.common.setSerializeArray(data,"packages",txt_package);
-            ik.common.mockPostForm(url,data,fid);
+
+            var fm= getform(data,url);
+            var $ibody=$($("#"+fid)[0].contentWindow.document.body);
+            $ibody.append(fm);
+            $ibody.find("form").submit();
         });
     }
 

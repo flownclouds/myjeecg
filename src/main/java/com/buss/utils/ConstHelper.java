@@ -35,4 +35,18 @@ public class ConstHelper {
         return dir;
     }
 
+    public static String getStandardPropertyName(String name) {
+        if (name.length() > 1) {
+            if ((Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1)))
+                    || (Character.isLowerCase(name.charAt(1)) && Character.isUpperCase(name.charAt(0)))
+                    ) {
+                if (name.length() == 2) {
+                    name = name.toUpperCase();
+                } else {
+                    name = name.substring(0, 2).toLowerCase() + name.substring(2);
+                }
+            }
+        }
+        return name;
+    }
 }
