@@ -105,60 +105,66 @@
         <easypoi.version>2.1.1</easypoi.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>http://repo.maven.apache.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spy</id>
-			<name>Spy Repository</name>
-			<url>http://files.couchbase.com/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>xerces</id>
-			<name>xerces</name>
-			<url>https://xerces.apache.org/xerces2-j/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>proxool</id>
-			<name>proxool</name>
-			<url>http://proxool.cvs.sourceforge.net/viewvc/proxool/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>oschinaMavenThirdparty</id>
-			<name>oschinaMavenThirdparty</name>
-			<url>http://maven.oschina.net/content/repositories/thirdparty/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<!--
-		<repository>
-			<id>osc</id>
-			<name>oschina</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		 -->
-	</repositories>
+	<!--<repositories>-->
+		<!--<repository>-->
+			<!--<id>central</id>-->
+			<!--<name>Central Repository</name>-->
+			<!--<url>http://repo.maven.apache.org/maven2</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>spy</id>-->
+			<!--<name>Spy Repository</name>-->
+			<!--<url>http://files.couchbase.com/maven2/</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>xerces</id>-->
+			<!--<name>xerces</name>-->
+			<!--<url>https://xerces.apache.org/xerces2-j/</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>proxool</id>-->
+			<!--<name>proxool</name>-->
+			<!--<url>http://proxool.cvs.sourceforge.net/viewvc/proxool/</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>oschinaMavenThirdparty</id>-->
+			<!--<name>oschinaMavenThirdparty</name>-->
+			<!--<url>http://maven.oschina.net/content/repositories/thirdparty/</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		<!--&lt;!&ndash;-->
+		<!--<repository>-->
+			<!--<id>osc</id>-->
+			<!--<name>oschina</name>-->
+			<!--<url>http://maven.oschina.net/content/groups/public/</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+		 <!--&ndash;&gt;-->
+	<!--</repositories>-->
 
 	<dependencies>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.7.8</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.sl</groupId>
 			<artifactId>mybatis-generator</artifactId>
