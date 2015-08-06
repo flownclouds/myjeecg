@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>代码生成信息</title>
-    <t:base type="jquery,easyui,jqueryui-sortable"></t:base>
+    <t:base type="jquery"></t:base>
     <script type="text/javascript" src="${mf:resource("webpage/com/buss/js/common.js")}"></script>
 
     <link rel="stylesheet" type="text/css" href="${mf:resource("plug-in/SyntaxHighlighter/styles/shCore.css")}" />
