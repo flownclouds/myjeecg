@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
  */
 public class MyTest {
     public static void main(String[] args) {
+       ClassLoader cl= Thread.currentThread().getContextClassLoader();
+
        Type tp= new TypeReference<UserInfo>(){}.getType();
        Class cls= tp.getClass();
 
