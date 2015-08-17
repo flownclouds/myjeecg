@@ -1,4 +1,11 @@
 environments {
+    test1 {
+        jdbc {
+            url = 'test'
+            user = 'tes'
+            password = '456'
+        }
+    }
     dev {
         jdbc {
             url = 'development'
@@ -7,13 +14,7 @@ environments {
         }
     }
 
-    test {
-        jdbc {
-            url = 'test'
-            user = 'tes'
-            password = '456'
-        }
-    }
+
     pro {
         jdbc {
             url = 'production'

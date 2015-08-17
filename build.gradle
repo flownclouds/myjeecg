@@ -14,6 +14,21 @@ description = """"""
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+//处理不同环境的配置
+ext {
+    profile = "dev"
+    if (project.hasProperty('prof')) {
+
+        profile = project.property('prof')
+    }
+
+    proConfig= loadGroovyConfig()
+//    for(p in pros.propertyNames()){
+//        println p
+//    }
+//    println pros.getProperty("jdbc.url","not found!")
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
@@ -179,15 +194,7 @@ check.doLast {
     println "check is complete!"
 }
 
-//处理不同环境的配置
-ext {
-    profile = "dev"
-    if (project.hasProperty('prof')) {
 
-        profile = project.property('prof')
-    }
-
-}
 
 
 def loadGroovyConfig() {
@@ -208,9 +215,10 @@ processResources.doLast {
     println "begin replace profile!"
     from(sourceSets.main.resources.srcDirs) {
         filter(org.apache.tools.ant.filters.ReplaceTokens,
-                tokens: loadGroovyConfig()
+                tokens: project.proConfig
         )
     }
+    println "end replace profile!"
    // println environments.$ { environments }.$ { profile }.jdbc.url + "end replace profile!"
 }
 
