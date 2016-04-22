@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="CCSPJavaLibrary">
+
+    <property file="copylib.properties" />
+    <property name="lib.dist.dir.webinf" value="${lib.dist.dir}/WEB-INF" />
+    <property name="lib.dist.dir.webinf.lib" value="${lib.dist.dir.webinf}/lib" />
+    <property name="jar.dir.path" value="${tomcat.home}/lib/${jar.dir.name}" />
+
+    <target name="init">
+        <delete dir="${lib.dist.dir}" includeEmptyDirs="true" />
+        <mkdir dir="${lib.dist.dir.webinf}" />
+        <mkdir dir="${lib.dist.dir.webinf.lib}" />
+        <copy todir="${lib.dist.dir.webinf.lib}" flatten="true">
+            <fileset dir="${library.dir}">
+                <include name="antlr\2.7.7\antlr-2.7.7.jar" />
+                <include name="aopalliance\aopalliance.jar" />
+                <include name="aspectj\1.5.4\aspectjweaver.jar" />
+                <include name="cglib\2.1_3\cglib-nodep-2.1_3.jar" />
+                <include name="apache\commons\beanutils\1.8.1\commons-beanutils.jar" />
+                <include name="apache\commons\collections\3.2.1\commons-collections.jar" />
+                <include name="apache\commons\fileupload\1.2\commons-fileupload.jar" />
+                <include name="apache\commons\httpcomponents\client\4.1\httpclient-4.1.jar" />
+                <include name="apache\commons\httpcomponents\client\4.1\httpclient-cache-4.1.jar" />
+                <include name="apache\commons\httpcomponents\client\4.1\httpmime-4.1.jar" />
+                <include name="apache\commons\httpcomponents\core\4.1\httpcore-4.1.jar" />
+                <include name="apache\commons\httpcomponents\core\4.1\httpcore-nio-4.1.jar" />
+
+                <include name="ibm\mq\com.ibm.mq.jar" />
+                <include name="ibm\mq\com.ibm.mqjms.jar" />
+                <include name="ibm\mq\dhbcore.jar" />
+                <include name="ibm\mq\rmm.jar" />
+
+                <include name="itext\2.0.8\iText-2.0.8.jar" />
+                <include name="itext\itext-asian.jar" />
+                <include name="flyingsaucer\core-renderer.jar" />
+
+                <include name="apache\commons\lang\2.4\commons-lang.jar" />
+                <include name="apache\commons\lang\3\commons-lang3.jar" />
+                <include name="apache\commons\io\1.3.1\commons-io.jar" />
+                <include name="apache\commons\codec\1.4\commons-codec.jar" />
+                <include name="apache\commons\digester\1.6\commons-digester.jar" />
+                <include name="apache/commons/net/3/commons-net-3.1.jar" />
+                <include name="apache\xmlbeans\2.4.0\xbean.jar" />
+                <include name="apache\commons\jexl\2.0.1\commons-jexl-2.0.1.jar" />
+                <include name="dom4j\1.6\dom4j-1.6.jar" />
+                <include name="jaxen\1\jaxen-1.jar" />
+                <include name="javaee\jpa\2.0\persistence.jar" />
+                <include name="javaee\jstl\1.0.6\jstl.jar" />
+                <include name="freemarker\2.3.16\freemarker-2.3.16.jar" />
+                <include name="apache\ibatis\2.3.4\ibatis-2.3.4.726.jar" />
+                <include name="javaee\jta\1.1\jta.jar" />
+                <include name="javaee\mail\1.4\mail.jar" />
+                <include name="apache\jakarta\taglibs\standard\1.0.6\standard.jar" />
+                <include name="apache\commons\logging\1.1.1\commons-logging.jar" />
+                <include name="apache\xml\xalan-j\2.7.1\*.jar" />
+                <include name="bsh\2.0\bsh.jar" />
+                <include name="apache\log4j\1.2.15\log4j-1.2.15.jar" />
+                <include name="json\org\json.jar" />
+                <include name="ehcache\1.6.1\ehcache-1.6.1.jar" />
+                <include name="c3p0\0.9.1.2\c3p0-0.9.1.2.jar" />
+                <include name="driver\oracle\ojdbc14_10g.jar" />
+                <include name="apache\velocity\1.6.3\velocity-1.6.3.jar" />
+                <include name="apache\velocity\tools\2.0\velocity-tools-2.0.jar" />
+                <include name="pinyin4j\2.5.0\pinyin4j-2.5.0.jar" />
+                <include name="asm\2.2.3\*.jar" />
+                <include name="sax\1.0\saxpath.jar" />
+                <include name="apache\struts\2.2.1\struts2-core-2.2.1.jar" />
+                <include name="apache\struts\plugin\struts2-spring-plugin-2.2.1.jar" />
+                <include name="ognl\3.0\ognl-3.0.jar" />
+                <include name="xwork\2.2.1\xwork-core-2.2.1.jar" />
+                <include name="javaee/jms/jms.jar" />
+                <include name="json/gson/1.5/gson-1.5.jar" />
+                <include name="slf4j\1.6.1\core\slf4j-api-1.6.1.jar" />
+                <include name="slf4j\1.6.1\support\slf4j-log4j12-1.6.1.jar" />
+                <include name="javassit\3.15.0\javassist-3.15.0.jar" />
+                <include name="jxl/2.6.12/jxl.jar" />
+                <include name="apache/poi/3.8/poi-3.8.jar" />
+                <include name="apache/poi/3.8/poi-ooxml-3.8.jar" />
+                <include name="apache/poi/3.8/poi-ooxml-schemas-3.8.jar" />
+                <include name="quartz\1.7.3\quartz-all-1.7.3.jar" />
+                <include name="json\jackson\jackson-all-1.9.0.jar" />
+                <include name="hessian/3.1.6/hessian-3.1.6.jar" />
+                <include name="hibernate\4\hibernate-commons-annotations-4.jar" />
+                <include name="hibernate\4\hibernate-core-4.jar" />
+                <include name="jboss/*.jar" />
+                <include name="springsource\spring\modules\3\*.jar" />
+                <include name="sitemesh/2.4/sitemesh-2.4.jar" />
+                <include name="sitemesh/2.4/struts2-sitemesh-plugin-2.1.8.1.jar" />
+                <include name="mybatis/3.0.6/mybatis-3.0.6.jar" />
+                <include name="mybatis/spring/1.0.2/mybatis-spring-1.0.2.jar" />
+                <include name="swing-layout/1.0.3/swing-layout-1.0.3.jar" />
+                <!-- spring-security -->
+                <include name="springsource/spring-security/3/*.jar" />
+                <include name="coherence/3/coherence.jar" />
+
+                <!-- CXF required Jars -->
+                <include name="apache/cxf/2.4.0/cxf-2.4.0.jar" />
+                <include name="apache/neethi/3.0.1/neethi-3.0.1.jar" />
+                <include name="wsdl4j/1.6.2/wsdl4j-1.6.2.jar" />
+                <include name="apache/xmlschema/2.0.1/xmlschema-core-2.0.1.jar" />
+                <include name="apache/xmlschema/2.0.1/xmlschema-core-2.0.1.jar" />
+                <!-- WS-security required Jars -->
+                <include name="apache/xml/xalan-j/2.7.1/serializer.jar" />
+                <include name="apache/xml/xalan-j/2.7.1/xalan.jar" />
+                <include name="apache/ws/wss4j/1.6.4/wss4j-1.6.4.jar" />
+                <include name="apache/xml/security/1.4.6/xalan.jar" />
+
+                <!-- OXM required Jars -->
+                <include name="castor/castor-core/1.3.2/castor-core-1.3.2.jar" />
+                <include name="castor/castor-xml/1.3.2/castor-xml-1.3.2.jar" />
+                <!-- barcode required Jars -->
+                <include name="barcode4j/2.1/barcode4j.jar" />
+                <include name="apache/avalon/avalon-framework-4.2.0.jar" />
+                <include name="apache/commons/cli/1.2/commons-cli-1.2.jar" />
+                <include name="jdom\1.1.1\jdom.jar" />
+                <!-- captcha required Jars -->
+                <include name="kaptcha\kaptcha.jar" />
+                <!-- thumbnail -->
+                <include name="thumbnailator\thumbnailator.jar" />
+
+                <!-- jxls -->
+                <include name="jxls/1.0.1/jxls-core-1.0.1.jar" />
+                <include name="jxls/1.0.1/jxls-reader-1.0.1.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="copy_tomcat_libraries" depends="init">
+        <mkdir dir="${jar.dir.path}" />
+        <copy todir="${tomcat.home}/conf" file="./catalina.properties" overwrite="true" />
+        <copy todir="${jar.dir.path}" flatten="true">
+            <fileset dir="${lib.dist.dir.webinf.lib}">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="copy_weblogic_libraries" depends="init">
+        <copy todir="${weblogic.home}/user_projects/domains/${weblogic.domain.name}/lib" flatten="true">
+            <fileset dir="${lib.dist.dir.webinf.lib}">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="library_war" depends="init">
+        <war webxml="web.xml" destfile="${lib.dist.dir}/infoskylibrary.war">
+            <fileset dir="${lib.dist.dir}/">
+                <include name="**/*.*" />
+            </fileset>
+        </war>
+    </target>
+</project>
