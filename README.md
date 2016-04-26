@@ -12,6 +12,8 @@
 相比其他的代码生成工具，就是在线制定代码模板；
 
 项目图片描述：http://www.cnblogs.com/sl21100/p/5421714.html
+
+依赖lib离线包：http://pan.baidu.com/s/1c2wjsti
   
   
   
